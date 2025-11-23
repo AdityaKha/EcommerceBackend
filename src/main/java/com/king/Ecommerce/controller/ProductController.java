@@ -3,7 +3,9 @@ package com.king.Ecommerce.controller;
 import com.king.Ecommerce.model.Product;
 import com.king.Ecommerce.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -35,8 +37,6 @@ public class ProductController {
 
     @PostMapping("/product")
     public ResponseEntity<?> addProduct(@RequestPart Product product, @RequestPart MultipartFile image) {
-        System.out.println(product);
-        System.out.println(image);
         try {
             Product savedProduct = productService.addProduct(product, image);
             return new ResponseEntity<>(savedProduct, HttpStatus.CREATED);
@@ -45,5 +45,18 @@ public class ProductController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 
         }
+    }
+
+    @GetMapping("/product/{id}/image")
+    public ResponseEntity<byte[]> getImage(@PathVariable Integer id) {
+        Product product = productService.getProductById(id);
+        if (product == null || product.getImageData() == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.IMAGE_JPEG); // or IMAGE_PNG
+
+        return new ResponseEntity<>(product.getImageData(), headers, HttpStatus.OK);
     }
 }

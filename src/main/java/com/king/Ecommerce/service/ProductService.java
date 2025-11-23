@@ -3,7 +3,6 @@ package com.king.Ecommerce.service;
 import com.king.Ecommerce.model.Product;
 import com.king.Ecommerce.repository.ProductRepo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
