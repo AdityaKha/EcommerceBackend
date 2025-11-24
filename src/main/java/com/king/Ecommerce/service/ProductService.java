@@ -3,6 +3,7 @@ package com.king.Ecommerce.service;
 import com.king.Ecommerce.model.Product;
 import com.king.Ecommerce.repository.ProductRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -31,5 +32,9 @@ public class ProductService {
 
     public void deleteProduct(Integer id) {
         productRepo.deleteById(id);
+    }
+
+    public List<Product> getProductsByName(String name) {
+        return productRepo.getProductsByName(name);
     }
 }

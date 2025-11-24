@@ -77,4 +77,9 @@ public class ProductController {
         productService.deleteProduct(id);
         return new ResponseEntity<>("Deleted", HttpStatus.OK);
     }
+
+    @GetMapping("product/search")
+    public ResponseEntity<List<Product>> getProductsByName(@RequestParam String name) {
+        return new ResponseEntity<>(productService.getProductsByName(name), HttpStatus.OK);
+    }
 }
