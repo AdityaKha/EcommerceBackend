@@ -55,8 +55,26 @@ public class ProductController {
         }
 
         HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.IMAGE_JPEG); // or IMAGE_PNG
+        headers.setContentType(MediaType.IMAGE_JPEG);
 
         return new ResponseEntity<>(product.getImageData(), headers, HttpStatus.OK);
+    }
+
+    @PutMapping("product/{id}")
+    public ResponseEntity<?> updateProduct(@PathVariable String id, @RequestPart Product product, @RequestPart(value = "image", required = false) MultipartFile image) {
+        try {
+            System.out.println(product);
+            productService.addProduct(product, image);
+            return new ResponseEntity<>("Saved", HttpStatus.CREATED);
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @DeleteMapping("product/{id}")
+    public ResponseEntity<?> deleteProduct(@PathVariable Integer id) {
+        productService.deleteProduct(id);
+        return new ResponseEntity<>("Deleted", HttpStatus.OK);
     }
 }
